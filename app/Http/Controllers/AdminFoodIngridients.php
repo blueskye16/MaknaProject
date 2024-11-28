@@ -12,7 +12,7 @@ class AdminFoodIngridients extends Controller
      */
     public function index()
     {
-        return view('dashboard', [
+        return view('dashboard.food', [
             'ingridients' => FoodIngridients::all()
         ]);
     }
@@ -30,15 +30,42 @@ class AdminFoodIngridients extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'stokAwal' => ['required'],
-            'masuk' => ['required'],
-            'keluar' => ['required'],
-            'stokAkhir' => ['required'],
-            'tanggal' => ['required'],
-        ]);
+        // $validatedData = $request->validate([
+        //     'stok_awal' => ['required'],
+        //     'masuk' => ['required'],
+        //     'keluar' => ['required'],
+        //     'stok_akhir' => ['required'],
+        //     'tanggal' => ['required'],
+        // ]);
 
-        FoodIngridients::create($validatedData);
+        // FoodIngridients::create($validatedData);
+
+        // return redirect('/dashboard')->with('success', 'New list has been added!');
+
+        // Validate input
+        // dd($request);
+        $validatedData = $request->validate([
+            'tanggal' => ['required', 'date'],
+            'data.*.nama_produk' => ['required', 'string'],
+            'data.*.stok_awal' => ['required', 'numeric'],
+            'data.*.masuk' => ['required', 'numeric'],
+            'data.*.keluar' => ['required', 'numeric'],
+            'data.*.stok_akhir' => ['required', 'numeric'],
+        ]);
+    
+        foreach ($validatedData['data'] as $data) {
+            FoodIngridients::updateOrCreate(
+                ['nama_produk' => $data['nama_produk']],
+                [
+                    'stok_awal' => $data['stok_awal'],
+                    'masuk' => $data['masuk'],
+                    'keluar' => $data['keluar'],
+                    'stok_akhir' => $data['stok_akhir'],
+                    'tanggal' => $validatedData['tanggal'],
+                ]
+            );
+        }
+        return redirect('/dashboard/food')->with('success', 'Data submitted successfully!');
     }
 
     /**

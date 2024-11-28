@@ -14,13 +14,23 @@ return new class extends Migration
         Schema::create('food_ingridients', function (Blueprint $table) {
             $table->id();
             $table->string('nama_produk');
-            $table->integer('stok_awal');
-            $table->integer('masuk');
-            $table->integer('keluar');
-            $table->integer('stok_akhir');
-            $table->date('tanggal');
+            $table->integer('stok_awal')->nullable();
+            $table->integer('masuk')->nullable();
+            $table->integer('keluar')->nullable();
+            $table->integer('stok_akhir')->nullable();
+            $table->date('tanggal')->nullable();
             $table->timestamps();
         });
+        // Schema::create('food_ingridients', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('nama_produk');
+        //     $table->integer('stok_awal');
+        //     $table->integer('masuk');
+        //     $table->integer('keluar');
+        //     $table->integer('stok_akhir');
+        //     $table->date('tanggal');
+        //     $table->timestamps();
+        // });
     }
 
     /**

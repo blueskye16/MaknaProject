@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call([UserSeeder::class]);
+        $this->call([UserSeeder::class, FoodIngridientsSeeder::class]);
 
-        FoodIngridients::factory(5)->create();
+        // FoodIngridients::factory(1)->create();
 
         User::factory()->create([
             'name' => 'Test User',
